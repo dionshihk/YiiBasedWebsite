@@ -1,3 +1,4 @@
 config.php
-config.*.php
+config.server.php
 protected/runtime/*
+.idea/*
