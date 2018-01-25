@@ -1,0 +1,85 @@
+@import "base";
+
+
+//Libraries include:
+//	Froala
+//	FaceBox
+
+.defaultFroalaEditorPresent {
+	font-size: 14px;
+
+	p { margin-bottom: 9px; line-height: 24px; }
+	h1 { font-size: 42px; margin: 17px 0; }
+	h2 { font-size: 24px; margin-bottom: 16px; }
+	h3 { font-size: 16px; margin: -15px 0 8px; }
+	a, a * { color: @primaryColor!important; text-decoration: underline!important; }
+	li { margin-bottom: 6px; }
+	ul, ol { padding-left: 24px; }
+	table { border-collapse: collapse; margin: 10px 0; }
+	table td, table th { padding: 0 7px; border: 1px solid #aaa!important; }
+	img { margin: 10px 0; min-width: 400px; }
+}
+
+#facebox { position: fixed; top: 0; left: 0; z-index: 121; }
+#facebox .popup { background: #fff; position: relative; border-radius: 10px; }
+
+#facebox .header {
+	cursor: move;
+	padding: 10px 0;
+	text-align: center;
+	border-bottom: 1px solid #aaa;
+	color: #777;
+	font-size: 18px;
+}
+
+#facebox .content {
+	padding: 20px;
+	min-width: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#facebox .image { text-align: center; }
+
+#facebox i.fa-close {
+	position: absolute;
+	top: 13px;
+	right: 9px;
+	cursor: pointer;
+
+	@media @phoneScreenConfig
+	{
+		font-size: 30px; right:0; top:0; padding: 10px;
+	}
+}
+
+#facebox i.fa-close:hover {
+	color: #777;
+}
+
+#facebox_overlay {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+.facebox_overlayBG {
+	background: #000;
+	z-index: 120;
+}
+
+.facebox_bdr {
+	position: fixed;
+	border: 1px solid #999;
+	z-index: 121;
+	cursor: move;
+}
+
+@media @phoneScreenConfig {
+	#facebox  { top:20px!important; left:20px!important; right:20px!important; }
+	#facebox .popup { border-radius: 0; border:1px solid #000; }
+	#facebox .header { cursor: text; }
+	.facebox_bdr { display: none!important; }
+}

@@ -1,23 +1,51 @@
 <?php
-class UserConfig 
+
+class UserConfig
 {
-	//If debugging
-	//	- Output original model save error
-	public static $isDebugging = true;
+    public static $domain = null;
+    public static $protocol = null;
+    public static $baseUrl = null;
+    public static $websiteName = null;
 
-    public static $websiteUrl = 'http://mask.club';
-    public static $websiteName = 'Mask Club';
-	public static $staticFileRoot = '/static/';
-    public static $signInRememberDays = 15;
+    public static $staticFileRoot = '/static/';
+    public static $adminConfigRoot = '/adminConfig/';
+    public static $adminUploadFolder = '/uploadOfAdmin/';
+    public static $defaultAvatarFile = '/static/image/avatar.jpg';
+    public static $defaultAvatarFileForFemale = '/static/image/avatarFemale.jpg';
 
-    public static $adminPageSize = 18;
+    public static $adminPageSize = 30;
 
-    //SES part
-    public static $sesEmailSenderEmail = "info@mask.club";
-    public static $sesEmailSenderName = "Mask Team";
-    public static $awsAppKey = "AKIAJXTIZANSYCLMISSQ";
-    public static $awsSecretKey = "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";
-    public static $awsServerAddress = "email.us-east-1.amazonaws.com";
+    public static $adminRoles = array(
+        1 => 'Super Admin',
+        2 => 'Authorized Admin',
+    );
 
+    //Mobile part
+    public static $sessionTokenDuration = 100;   //In hours
+    public static $apnsCertificateFile = "/assets/app/apns.pem";
+    public static $apnsPrivateKey = "";
+
+    //Third-party API part
+    public static $awsAppKey = "";
+    public static $awsSecretKey = "";
+    public static $awsSender = 'no-reply@tourway.org';
+
+    public static $googleAnalyticsId = "UA-88936959-1";
 
 }
+
+$runningMode = Tools::mode();
+if($runningMode == 1)
+{
+    UserConfig::$domain = 'tourway.site';
+    UserConfig::$protocol = 'http://';
+    UserConfig::$websiteName = '(Local)';
+}
+elseif($runningMode == 2)
+{
+    UserConfig::$domain = 'tourway.org';
+    UserConfig::$protocol = 'https://';
+    UserConfig::$websiteName = 'Tourway';
+}
+
+UserConfig::$baseUrl = UserConfig::$protocol.UserConfig::$domain;

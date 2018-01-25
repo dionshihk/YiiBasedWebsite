@@ -2,107 +2,98 @@
 
 class EmailController extends CController
 {
-    protected $user;
     protected $name;
 
     public function init()
     {
         parent::init();
 
-        //But I don't know wtf, now it cannot send emails in local env
-        //Works fine in production env
-
-        error_reporting(E_ERROR | E_WARNING | E_PARSE);     //Otherwise SES library would trigger E_NOTICE
         $this->layout = '/layouts/email';
+        $this->name = null;
     }
 
     public function actionSend($email, $template, $userId, $para1 = '', $para2 = '')
     {
+        $currentUser = null;
+
         try
         {
-            $this->user = User::model()->findByPk($userId);
-            if($this->user) $this->name = Tools::getUserName($this->user);
-            else $this->name = '';
+            $currentUser = User::model()->findByPk($userId);
+            if($currentUser) $this->name = $currentUser->nickname;
 
-            $emailTitle = $this->getEmailTitle($template, $para1, $para2);
-
-            if($emailTitle)
+            list($emailTitle, $emailBody) = $this->getEmailTemplateData($template, $para1, $para2);
+            if($email)
             {
-                $content = $this->render($template,
-                    array(
-                        'para1'=>$para1,
-                        'para2'=>$para2,
-                    ), true);
-
-                $result = $this->send($email, $emailTitle, $content);
-                Tools::log('Email #'.$template.' to '.$email.': <i>'.$result.'</i>');
+                $result = AWSTools::sendEmail($email, $emailTitle, $emailBody);
+                Tools::log('Email #'.$template.' to '.$email.': <i>'.$result.'</i>', 'info', $currentUser);
             }
             else
             {
-                throw new Exception('Unknown template');
+                //For debug purpose
+
+                echo '<h1>'.$emailTitle.'</h1>';
+                echo $emailBody;
             }
         }
         catch(Exception $ex)
         {
-            Tools::log('Fail to email #'.$template.': <i>'.$ex->getMessage().'</i>');
+            Tools::logException($ex, $currentUser);
         }
     }
 
-    public function actionTestRender($template, $para1 = '', $para2 = '')
+    private function getEmailTemplateData($template, $para1, $para2)
     {
-        $this->name = 'User';
-        echo '<h2>'.$this->getEmailTitle($template, $para1, $para2).'</h2>';
-        $this->render($template,
-            array(
-                'para1'=>$para1,
-                'para2'=>$para2,
-            ));
-    }
+        //Return [title, full-content], or throw exception
 
-    private function send($recipient, $title, $content)
-    {
-        require_once(Yii::getPathOfAlias('webroot').'/assets/ses/SimpleEmailService.php');
-        require_once(Yii::getPathOfAlias('webroot').'/assets/ses/SimpleEmailServiceMessage.php');
-        require_once(Yii::getPathOfAlias('webroot').'/assets/ses/SimpleEmailServiceRequest.php');
+        if(!is_readable($this->getViewPath().'/'.$template.'.php')) throw new Exception('Invalid Template #'.$template);
 
-        $ses = new SimpleEmailService(UserConfig::$awsAppKey, UserConfig::$awsSecretKey, UserConfig::$awsServerAddress);
+        $emailBody = $this->render($template, array('para1'=>$para1, 'para2'=>$para2), true);
+        $titleRegex = '/###(.*)###/';
 
-        $m = new SimpleEmailServiceMessage();
-        $m->addTo($recipient);
-        $m->setFrom(UserConfig::$sesEmailSenderName.'<'.UserConfig::$sesEmailSenderEmail.'>');
-        $m->setSubject($title);
-        $m->setMessageFromString('', $content);
-
-        $result = $ses->sendEmail($m);
-        $resultString = strval(var_export($result, true));
-
-        return $resultString;
-    }
-
-    private function getEmailTitle($template, $para1, $para2)
-    {
-        //Return NULL if invalid
-
-        $emailTitle = null;
-        if($template == 'signup')
+        if(preg_match($titleRegex, $emailBody, $matches))
         {
-            $emailTitle = '';
+            $emailTitle = trim($matches[1]);
+
+            //Clean the title in body
+            $emailBody = preg_replace($titleRegex, '', $emailBody);
+        }
+        else
+        {
+            throw new Exception("Cannot retrieve ### part for title");
         }
 
-        return $emailTitle;
+        return array($emailTitle, $emailBody);
     }
 
     protected function link($url, $name = null)
     {
-        if(strpos($url, '/') === 0) $url = UserConfig::$websiteUrl.$url;
+        if(strpos($url, '/') === 0) $url = UserConfig::$baseUrl.$url;
         if(!$name) $name = $url;
 
-        return '<a target="_blank" style="color:#22c;text-decoration: underline;" href="'.$url.'">'.$name.'</a>';
+        return '<a href="'.$url.'">'.$name.'</a>';
     }
 
     protected function b($text)
     {
-        return '<b>'.$text.'</b>';
+        return '<b style="margin:0 3px;">'.$text.'</b>';
     }
 
+    //Below are for test
+
+    public function actionTestAll()
+    {
+        $this->name = 'Jack';
+        $list = array(
+            array('verify', '123456', ''),
+            array('resetPassword', 'abcdefg12345', ''),
+        );
+
+        foreach($list as $item)
+        {
+            list($emailTitle, $emailBody) = $this->getEmailTemplateData($item[0], $item[1], $item[2]);
+            echo '<h2>'.$emailTitle.'</h2>';
+            echo $emailBody.'<br><br>';
+        }
+
+    }
 }

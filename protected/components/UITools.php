@@ -2,16 +2,17 @@
 
 class UITools
 {
-
-    public static function echoProductPaging($currentPage, $totalCount, $pageSize)
+    public static function echoPaging($currentPage, $totalCount, $pageSize)
     {
-        echo '<div class="pages">';
+        //If only one page, no show
+
         $pageCount = ceil($totalCount / $pageSize);
-        if($pageCount == 0) $pageCount = 1;
+        if($pageCount <= 1) return;
 
         $isFirstPage = ($currentPage <= 0);
         $isLastPage = ($currentPage >= $pageCount - 1);
 
+        echo '<div class="pages">';
         echo '<a class="op" href="javascript:reloadUriWithParam(\'page\','.($isFirstPage ? 0 : ($currentPage - 1)).')">«</a>';
 
         $pageEntries = array($currentPage - 1, $currentPage, $currentPage + 1);
@@ -61,11 +62,11 @@ class UITools
 
     public static function echoDatePicker($id, $name, $placeHolder = "",
                                           $classes = array(), $enableOldDateSelect = false,
-                                          $value = "", $style = "", $editable = false)
+                                          $value = "", $editable = true)
     {
         $cs = Yii::app()->getClientScript();
-        $cs->registerScriptFile(UserConfig::$staticFileRoot.'/lib.datepicker/datepicker.js');
-        $cs->registerCssFile(UserConfig::$staticFileRoot.'/lib.datepicker/datepicker.css');
+        $cs->registerScriptFile(UserConfig::$staticFileRoot.'/js/datepicker.js');
+        $cs->registerCssFile(UserConfig::$staticFileRoot.'/css/datepicker.css');
 
         $classes[] = 'disable-drag';
         if(!$enableOldDateSelect)
@@ -73,8 +74,7 @@ class UITools
             $classes[] = 'disable-19700101-'.date("Ymd");
         }
 
-        echo '<input maxlength="12" name="'.$name.'" value="'.$value.'" style="'.$style.
-            '" placeholder="'.$placeHolder.'" type="text" id="'.$id.'" class="w16em dateformat-Y-ds-m-ds-d';
+        echo '<input maxlength="12" name="'.$name.'" value="'.$value.'" placeholder="'.$placeHolder.'" type="text" id="'.$id.'" class="w16em dateformat-Y-ds-m-ds-d';
 
         foreach($classes as $c) { echo ' '.$c; }
         if(!$editable) echo '" readonly="readonly';
@@ -82,37 +82,40 @@ class UITools
         echo '">';
     }
 
-    public static function echoSharing()
+    public static function echoDynamicPage($key)
     {
-        echo '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5641877bd9fb8908" async="async"></script>';
-    }
-
-    public static function echoLiveChat($user = null)
-    {
-        if(!Tools::isLocalVisit())
+        if(isset($_POST['preview_'.$key]))
         {
-            echo '<script type="text/javascript">window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=' .
-                'd.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.' .
-                '_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");$.src="//v2.zopim.com/?3SDhucb8fi1ECUfOTWmpFEmQDfleBX7E";z.t=+new Date;$.' .
-                'type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");</script>';
-
-            $chatSettings = array();
-            $chatSettings['Language'] = Tools::getContextLangObject()->langCode;
-
-            if($user)
+            echo $_POST['preview_'.$key];
+        }
+        else
+        {
+            $currentDomain = Tools::getLangObjectFromContext()->currentDomain;
+            $model = DynamicPage::model()->findByPk($key.'.'.$currentDomain);
+            if($model)
             {
-                $chatSettings['Name'] = $user->first_name.' '.$user->last_name;
-                $chatSettings['Email'] = $user->email;
-                $chatSettings['Notes'] = 'Mask Member ID: '.$user->uniq_id;
+                echo $model->content;
+            }
+            elseif ($currentDomain != UserConfig::$defaultDomain)
+            {
+                $fallbackModel = DynamicPage::model()->findByPk($key.'.'.UserConfig::$defaultDomain);
+                if($fallbackModel)
+                {
+                    echo $fallbackModel->content;
+                }
             }
 
-            echo '<script>$zopim(function(){';
-            foreach($chatSettings as $k=>$v)
-            {
-                echo '$zopim.livechat.set'.$k.'("'.$v.'");';
-            }
-
-            echo '});</script>';
         }
     }
+
+    public static function echoStat()
+    {
+        if(Tools::mode() == 2)
+        {
+            echo "<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),".
+                "m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');".
+                "ga('create', '".UserConfig::$googleAnalyticsId."', 'auto');ga('send', 'pageview');</script>";
+        }
+    }
+
 } 

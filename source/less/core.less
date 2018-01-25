@@ -1,0 +1,108 @@
+@import "include/base";
+
+* {
+	padding: 0; margin: 0;  font-family: @fontStack;
+	word-wrap: break-word; -webkit-text-size-adjust: 100%; box-sizing: border-box;
+}
+
+ul, ol { padding-left: 30px; }
+body { color: #555; background: @bgColor; }
+a:link, a:visited, a:active, a:hover { text-decoration: none; color: #333; }
+img { border: none; }
+input, textarea { outline: none; resize: none; }
+
+.ilb { display: inline-block; *zoom: 1; *display: inline; vertical-align: top; }
+.link { text-decoration: underline !important; color: @primaryColor !important; cursor: pointer; }
+.bgImg { background: #f2f2f2 center no-repeat; background-size: cover; }
+
+.formRow {
+	min-height: 32px;
+	margin-bottom: 12px;
+	font-size: 16px;
+
+	.left { display: inline-block; width: 180px; vertical-align: top; text-align: right; color: #777; }
+	.left.focused { color: @primaryColor; font-weight: bold; }
+	.left.focused.err { color: @redColor; }
+	.left p { color: #ccc !important; font-weight: normal; font-size: 12px; }
+
+	.right {
+		display: inline-block;
+		vertical-align: top;
+		margin-left: 12px;
+
+		input, select { height: 26px; line-height: 26px; }
+		p { color: #bbb; font-size: 13px; margin-top: 5px; }
+		p.red { color: @redColor; font-weight: bold; }
+	}
+
+	.bioRight { display: inline-block; vertical-align:top; margin-left:12px }
+}
+
+.tickLabel {
+	display: block; cursor: pointer; font-size: 12px; margin: 8px 0;
+	input { margin-right: 8px; }
+}
+
+a.fbConnectButton {
+	position: relative; background: #4267b2; margin: 5px 0;
+	color: #fff; font-size: 16px; border-radius: 3px; text-align: center;
+	display: inline-block; padding: 0 30px 0 60px; height: 40px; line-height: 40px;
+
+	i.fa { vertical-align: middle; position: absolute; left: 5px; top: 5px; }
+	&:hover { opacity: 0.92; }
+}
+
+#topPopBox {
+	position: fixed; left: 0; right: 0; top: 3px; z-index: 999;
+	.core {
+		display: none; padding: 9px 0; border-radius: 2px; color: #8a6d3b; font-size: 13px;
+		margin: 0 auto; width: 350px; text-align: center; border: 1px solid #ead2c1; background: #fcf8e3;
+		box-shadow: 2px 2px 1px rgba(0,0,0,0.12);
+
+		i.fa { margin-right: 8px; color: #8a6d3b; }
+	}
+}
+#textTipBox { display: none; position: fixed; background: rgba(0,0,0,0.8); color: #fff; padding:3px 9px; border-radius: 4px; z-index: 120; font-size: 14px; }
+
+#jmpOverlay { position: fixed; display: none; z-index: 888; background: rgba(0, 0, 0, 0.6); left: 0; top: 0; right:0; bottom: 0; }
+#jmpBox { position: fixed; display: none; z-index: 889; text-align: center; width: 100%; top:240px; }
+
+.center {
+	width: 96%;
+	margin: 0 auto;
+	position: relative;
+	.animate(width);
+
+	@media @largeScreenConfig { width: 1200px; }
+}
+
+.blackButton {
+	border-radius: 2px; color: #fff; background: #222;
+	width: 140px; text-align: center; padding: 0 28px; font-size: 16px;
+	height: 36px; line-height: 36px;
+
+	&:hover { opacity: 0.92; cursor: pointer; }
+	&.disable { background: #bbb; color: #eee; cursor: not-allowed; }
+	&.disable:hover { opacity: 1; cursor: not-allowed; }
+
+	i.fa { margin-right: 10px; }
+}
+
+input.sys, textarea.sys { width: 360px; font-size: 14px; border: 1px solid #aaa; height: 30px; line-height: 30px; padding: 0 5px; }
+input.sys:focus, textarea.sys:focus { box-shadow: 0 0 6px rgba(0, 0, 0, 0.3); border-color:@primaryColor; color: @primaryColor; }
+input.err, textarea.err { box-shadow: none !important;  border-color:@redColor!important; }
+input.disable, textarea.disable { background-color: #eee; box-shadow: none; color: #999; border-color: #aaa; cursor: not-allowed; }
+input.disable:focus, textarea.disable:focus { box-shadow: none; border-color: #aaa; color: #999; }
+textarea.sys { height: 180px; }
+select.sys { width: 400px; height: 30px; line-height: 30px; border: 1px solid #888; }
+
+#pageContentBox
+{
+	margin: 30px auto;
+	.header { text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 16px; }
+	.content { padding: 20px; }
+}
+
+@import "include/library";
+@import "include/system";
+@import "include/headerFooter";

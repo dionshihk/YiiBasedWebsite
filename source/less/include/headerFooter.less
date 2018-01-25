@@ -1,0 +1,201 @@
+@import "base";
+
+#mobileHeader {
+	height:60px; display: none; position: fixed; left:0; right:0; top:0; border-bottom: 1px solid #fff;
+	cursor: pointer; color: #fff; z-index:99; background:@primaryColor;
+
+	img { height: 44px; margin: 8px auto; display: block; }
+	i.fa { position: absolute; left:12px; top:16px; }
+	.alertPoint { display: none; position: absolute; left:40px; top:10px; width: 13px; height: 13px; border-radius: 99px; background: @redColor; }
+
+	&.alert {
+		.alertPoint {
+			display: block;
+		}
+	}
+}
+
+header
+{
+	z-index:60;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	background: #fff;
+	border-bottom: 1px solid #ccc;
+
+	#headerLogo { height: 84px; margin: 3px 0 18px; .animate(); }
+	.right { position: absolute; right:0; bottom:8px; text-align: right; }
+
+	.user {
+		color: #999;
+		font-size: 11px;
+
+		.item { display: inline-block; position: relative; padding: 0 8px; height: 24px; line-height: 24px; color: #888; border-radius:4px; }
+		.item b { display: none; vertical-align: middle; }
+		.item span { margin-left: 4px; vertical-align: middle; }
+		.item i.fa { vertical-align: middle; margin-top: -1px; }
+		.item.highlight { background: @redColor; color: #fff!important; }
+		.item.highlight b { display: inline-block; margin-left: 3px; }
+
+		.defaultStyleHiddenList { left:auto; }
+		.defaultStyleHiddenList .arrow { left:auto; right:20px; }
+		.dropDown:hover .item, .item:hover { background: #e2e2e2; color: @primaryColor; }
+		.item.highlight:hover { background: #f11; }
+		.forMobile { display: none; }
+	}
+
+	.nav {
+		.animate();
+		color: #ddd; font-size: 16px; letter-spacing:1px; text-transform: uppercase; margin-top: 45px;
+
+		span { color: #888; padding:1px 3px; }
+		span::after { content: '|'; margin-left:6px; }
+		span:last-child::after { content: none; }
+		span a:hover { color: @primaryColor; }
+		span a.sel { color: @primaryColor; border-bottom: 2px solid @primaryColor; font-weight: bold; }
+		span .hidden a.entry.selected { color: @primaryColor!important; font-weight: bold; }
+	}
+}
+
+@media @notPhoneScreenConfig {
+	header.compressed {
+		#headerLogo { height: 64px; margin-bottom: 0; }
+		.nav { margin-top: 15px; font-size: 12px; }
+	}
+}
+
+footer
+{
+	border-top:1px solid #aaa;
+	margin-top: 50px!important;		//In case over-written by "center" margin
+	padding: 30px 0;
+
+	.sns {
+		position: absolute; right:0; top:24px; margin-bottom: 18px;
+
+		span { text-transform: uppercase; font-size: 14px; vertical-align: middle;}
+		i.fa {
+			.scale();
+			vertical-align: middle; display: inline-block; height: 32px; line-height: 32px; width: 32px; padding-top: 1px;
+			text-align: center; color: #fff; background: #999; margin-left: 2px; border-radius: 99px;
+			cursor: pointer;
+		}
+
+		//Ref: https://brandcolors.net/
+		i.fa-facebook.highlight, i.fa-facebook:hover { background: #4267b2; }
+		i.fa-instagram.highlight, i.fa-instagram:hover { background: #e1306c; }
+		i.fa-twitter.highlight, i.fa-twitter:hover { background: #0084b4; }
+		i.fa-weibo.highlight, i.fa-weibo:hover { background: #eb0029; }
+		i.fa-wechat.highlight, i.fa-wechat:hover { background: #7bb32e; }
+	}
+
+	.links { font-size: 14px; }
+	.links a { margin:0 3px;  }
+	.links a:hover { color: @primaryColor!important; text-decoration: underline; }
+	.copyright { font-size: 12px; color: #aaa; margin-top: 22px; }
+
+	#wechatQrBox {
+		display: none; position: absolute; width: 192px; height: 192px; border: 4px solid @primaryColor; right: 0; bottom: 38px;
+	}
+}
+
+#headerSearchInput
+{
+	.animate();
+	border: 1px solid #ddd; border-radius:4px;
+	width: 252px; font-size: 12px; height: 24px; line-height: 24px; padding: 0 30px 0 8px;
+
+	&:focus { background: #fff; border-color:#ddd; width: 360px; }
+}
+
+#headerSearchBox
+{
+	position: relative; margin-right: 12px;
+
+	i.fa { color: #aaa; position: absolute; right:5px; top:5px; }
+
+	.list {
+		z-index: 48;
+		display: none;
+		position: absolute; left: 0; top: 30px; right: 0; max-height: 700px; overflow-y: auto; overflow-x: hidden;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		background: #fff;
+		text-align: left;
+
+		h3 {
+			background: #ddd;
+			font-weight: normal;
+			padding: 5px 9px;
+			font-size: 16px;
+			margin: 6px 0;
+		}
+
+		h2 {
+			color: #bbb;
+			font-size: 26px;
+			text-align: center;
+			padding: 66px 0;
+			font-weight: normal;
+		}
+
+		.searchedItem { padding: 3px 9px; font-size: 13px; color: #303D4A;  }
+		.searchedItem.sel { background: @primaryColor; color: @bgColor; cursor: pointer; }
+		.searchedItem.more { font-size: 13px; }
+		.searchedItem.more b { margin-left: 5px; }
+		.searchedItem .info { color: #aaa; font-size: 12px; margin: 2px 0 0; }
+		.searchedItem.user {
+			padding-left: 48px;
+			position: relative;
+			height: 40px; vertical-align: top;
+		}
+
+		.searchedItem.user img {
+			position: absolute;
+			left: 9px;
+			top: 4px;
+			width: 32px;
+			height: 32px;
+			border-radius: 4px;
+		}
+	}
+}
+
+@media @phoneScreenConfig
+{
+	#mobileHeader { display: block; }
+	#headerHolder { height: 60px!important; }
+	header {
+		display: none; top:59px; border:2px solid @primaryColor; z-index: 100;
+
+		.center { width: 100%; }
+		#headerLogo { display: none; }
+		.right { position: static; text-align: left; }
+
+		.user {
+			text-align: center; font-size: 13px; padding: 8px 0;
+			.item i.fa { margin-top: 0; }
+			.account { display: none; }
+			.forMobile { display: inline-block; }
+		}
+
+		.nav {
+			margin-top: 4px;
+			span { display: block; padding: 0; }
+			span::after { content: none; }
+			span a { font-size: 20px; padding: 8px 22px; display: block;  }
+			span a:hover { background: #eee; }
+			span a.sel { background: @primaryColor; color: #fff; border:none; }
+			span .hidden { display: block!important; position: static!important; opacity: 1!important; margin-bottom: 4px; }
+			span .hidden .list { border:none; width:100%; padding: 0; margin:0; }
+			span .hidden a.entry { display: block; padding: 2px 40px; color: #666!important; font-size: 16px; height: auto; }
+			span .hidden .arrow { display: none; }
+		}
+	}
+
+	#headerSearchBox { display: none; }
+
+	footer .sns { position: static!important; }
+}

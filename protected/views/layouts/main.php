@@ -1,37 +1,33 @@
+<?php
+    $runningMode = Tools::mode();
+?>
 <!DOCTYPE html>
-<html><head>
+<html>
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <!--[if lte IE 7]><script>alert("<?=$this->t('error.ie')?>");</script><![endif]-->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="/favicon.ico" rel="shortcut icon">
-    <?php foreach($this->css as $c):?><link rel="stylesheet" type="text/css" href="<?=UserConfig::$staticFileRoot?>/<?=$c?>.css"/><?php endforeach ?>
-    <!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="<?=UserConfig::$staticFileRoot?>/css/ie8.css"/><![endif]-->
-    <script type="text/javascript" src="<?=UserConfig::$staticFileRoot?>/js/jquery-1.7.1.js"></script>
-    <script type="text/javascript" src="<?=UserConfig::$staticFileRoot?>/js/core.js"></script>
-    <?php foreach($this->js as $j) Yii::app()->clientScript->registerScriptFile(UserConfig::$staticFileRoot.'/'.$j.'.js', CClientScript::POS_END); ?>
+    <?php if($runningMode == 1):?>
+        <meta name="robots" content="noindex,nofollow">
+    <?php endif?>
+
+    <link href="/favicon.ico" rel="shortcut icon">
+    <?php foreach($this->css as $c):?>
+        <link rel="stylesheet" type="text/css" href="<?=UserConfig::$staticFileRoot?>/<?=$c?>.css"/>
+    <?php endforeach ?>
+    <script type="text/javascript" src="<?=UserConfig::$staticFileRoot?>/js/jquery.1.11.min.js"></script>
     <title><?=$this->pageTitle?> ›› <?=UserConfig::$websiteName?></title>
-</head><body>
+</head>
+<body>
     <div id="header">
-        <div class="center">
-            <a href="/"><img src="/assets/logo.png" id="headerLogo"></a>
-            <div id="headerRight">
-                <div id="headerLogin">
-                    <?php if($this->user):?>
-
-                    <?php else:?>
-
-                    <?php endif?>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="headerNav">
-
     </div>
 
     <?=$content?>
+
     <div id="footer">
 
     </div>
+
     <script type="text/javascript">
         var currentUserId = <?=$this->user?$this->user->id:0?>';
         $('[relHighlightKey="<?=$this->currentHighlightKey?>"]').addClass('sel');
@@ -40,5 +36,9 @@
             pop('<?=$sessionTip?>');
         <?php endif?>
     </script>
-<?php UITools::echoLiveChat($this->user) ?>
-</body></html>
+    <?php foreach($this->js as $j):?>
+        <script type="text/javascript" src="<?=UserConfig::$staticFileRoot?>/<?=$j?>.js"></script>
+    <?php endforeach?>
+    <?php UITools::echoStat();?>
+</body>
+</html>

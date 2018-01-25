@@ -7,31 +7,23 @@ class SiteController extends BaseController
 		parent::init();
 	}
 
-	public function actionAjaxLogin($name, $pass) { echo Tools::authUser($name, $pass); }
-    public function actionAjaxCheckEmailExist($email)
-    {
-        $condition = 'email = "'.Tools::purifySqlContent($email).'"';
-        if($this->user)
-        {
-            $condition .= ' AND id <> '.$this->user->id;
-        }
+    public function actionSigninPopup() { $this->renderPartial('signinPopup'); }
+	public function actionAjaxLogin($name, $pass) { echo Tools::authUser($name, Tools::encryptPassword($pass)); }
+    public function actionAjaxCheckEmailExist($email) { echo UserTools::checkEmailExist($email, $this->user) ? 1 : 0; }
+    public function actionAjaxCheckNicknameExist($name) { echo UserTools::checkNicknameExist($name, $this->user) ? 1 : 0; }
 
-        echo User::model()->exists($condition) ? 1 : 0;
-    }
-	
 	public function actionIndex($returnUrl = '/')
 	{
         if(isset($_POST['LoginForm']))
         {
-            if($this->doLogin($_POST['LoginForm']['name'], $_POST['LoginForm']['password'],
+            if($this->doLogin($_POST['LoginForm']['name'], Tools::encryptPassword($_POST['LoginForm']['password']),
                 isset($_POST['LoginForm']['remember'])))
             {
                 $this->redirect($returnUrl);
             }
         }
 
-
-        $this->pageTitle = '';
+        $this->pageTitle = 'Home';
 		$this->render('index', array(
 
         ));
@@ -39,44 +31,45 @@ class SiteController extends BaseController
 
     public function actionSignup()
     {
-        if($this->user) $this->redirect('/account');
+        if($this->user) $this->redirect('/');
 
         if(isset($_POST['DataForm']))
         {
-            try
+            $u = UserTools::register('DataForm');
+            if($u)
             {
-                $email = $_POST['DataForm']['email'];
-                $password = $_POST['DataForm']['password'];
-
-                $u = new User();
-                $u->attributes = Tools::processPostInput('DataForm', array('password'));
-                $u->avatar_url = '/assets/avatar.jpg';
-                $u->join_time = Tools::now();
-                $u->password = md5($u->password);
-
-                Tools::saveModel($u);
-
-                $this->doLogin($email, $password);
-                Tools::log('Sign up new user <i>'.$email.'</i>');
-
-                $this->redirect('/account');
+                $this->doLogin($u->email, $u->password);
+                $this->redirect('/');
             }
-            catch(Exception $ex)
+            else
             {
-                Tools::log('Sign up exception: '.$ex->getMessage());
-                $this->error('');
+                $this->fail();
             }
         }
 
-        $this->pageTitle = $this->t('nav.8');
+        $this->pageTitle = 'Sign Up';
         $this->render('signup');
     }
 
-    public function actionSigninPopup() { $this->renderPartial('signinPopup'); }
-    public function actionError() { $this->error(); }
-
-    private function doLogin($name, $pass, $rememberLogin = false)
+    public function actionError()
     {
+        $e = Yii::app()->errorHandler->error;
+        if($e && isset($e['code']) && $e['code'] == 500)
+        {
+            if(isset($e['message']) && isset($e['file']) && isset($e['line']))
+            {
+                Tools::log('500: <i>'.$e['message'].' ['. $e['file'].' #'.$e['line'].']</i>', 'error');
+                $this->fail();
+            }
+
+        }
+
+        $this->error();
+    }
+
+    private function doLogin($name, $pass, $rememberLogin = true)
+    {
+        //$pass is encrypted
         //Return true or false indicating if success to sign in
 
         $identity = new UserIdentity($name, $pass);
@@ -84,14 +77,13 @@ class SiteController extends BaseController
 
         if($identity->errorCode === UserIdentity::ERROR_NONE)
         {
-            $duration = $rememberLogin ? (UserConfig::$signInRememberDays * 24 * 3600) : 0;
-            Yii::app()->user->login($identity, $duration);
+            $durationDay = $rememberLogin ? 100 : 0;
+            Yii::app()->user->login($identity, $durationDay * 24 * 3600);
 
             $this->user = User::model()->findByPk(Yii::app()->user->id);
             if($this->user)
             {
                 $this->user->last_login_time = Tools::now();
-                $this->user->prefer_lang = $this->lang->langCode;
                 Tools::saveModel($this->user);
 
                 return true;
@@ -100,5 +92,4 @@ class SiteController extends BaseController
 
         return false;
     }
-
 }

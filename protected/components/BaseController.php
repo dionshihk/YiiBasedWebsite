@@ -2,14 +2,13 @@
 
 class BaseController extends CController
 {
-	/**
-	 * @var User
-	 */
+	/** @var User $user */
 	public $user = null;
 
 	public $currentHighlightKey = null;
-	public $css = array('css/core');
-	public $js = array();	//Base JS auto included, others are appended at last
+
+	public $css = array('css/core', 'fontawesome.4.7/font-awesome.min');
+	public $js = array('js/core');	    //jQuery included in HTML top
 
 	public function init()
 	{
@@ -18,21 +17,27 @@ class BaseController extends CController
 		if(!Yii::app()->user->isGuest) 
 		{
 			$this->user = User::model()->findByPk(Yii::app()->user->id);
-            if($this->user)
+
+			if($this->user)
             {
-                if(!$this->user->is_enabled && $this->id != 'logout')
-                {
-                    $this->redirect('/logout');
-                }
+                //Check account status: 1 normal, 2 disabled, 3 need verified
+
+                if($this->user->status == 1 && $this->id != 'logout') { $this->redirect('/logout'); }
             }
 		}
 	}
 
+	protected function fail()
+    {
+        $this->error("We are unable to process your request now.<br>Please check your network and retry later.");
+    }
+
+
 	protected function error($info = null, $title = null, $buttonName = null, $buttonLink = '/')
 	{
-        if(!$info) $info = "Sorry, the page you are visiting does not exist";
-        if(!$title) $title = "Something Goes Wrong";
-        if(!$buttonName) $buttonName = "Go Back Home";
+        if(!$info) $info = 'Sorry, the page that you are visiting does not exist.';
+        if(!$title) $title = 'Error';
+        if(!$buttonName) $buttonName = 'Back To Home';
 
         $this->pageTitle = $title;
         $this->layout = '/layouts/main';
@@ -42,17 +47,64 @@ class BaseController extends CController
 
     protected function setTip($msg)
     {
-        if(!Yii::app()->user->hasFlash('tip'))
+        $sessionName = 'tip';
+        if(!Yii::app()->user->hasFlash($sessionName))
         {
-            Yii::app()->user->setFlash('tip', $msg);
+            Yii::app()->user->setFlash($sessionName, $msg);
+        }
+    }
+    
+	private $isEditorImported = false;
+	private $froalaEditorFolder = 'froala.editor.2.7.3';
+
+	//$mode:
+    //  1 for admin, with all features
+    //  2 for limited feature
+    protected function importFroalaEditor($mode)
+    {
+        if(!$this->isEditorImported)
+        {
+            $mode = intval($mode);
+            $this->isEditorImported = true;
+
+            //Core lib
+            $this->css[] = $this->froalaEditorFolder.'/css/froala_editor.min';
+            $this->css[] = $this->froalaEditorFolder.'/css/froala_style.min';
+            $this->js[] = $this->froalaEditorFolder.'/js/froala_editor.min';
+
+            //Others
+            // Ref: https://www.froala.com/wysiwyg-editor/docs/options#toolbarButtons
+
+            $this->css[] = $this->froalaEditorFolder.'/css/plugins/colors.min';
+            $this->css[] = $this->froalaEditorFolder.'/css/plugins/image.min';
+
+            $this->js[] = $this->froalaEditorFolder.'/js/plugins/image.min';
+            $this->js[] = $this->froalaEditorFolder.'/js/plugins/link.min';
+            $this->js[] = $this->froalaEditorFolder.'/js/plugins/url.min';
+
+            if($mode === 1)
+            {
+                $this->css[] = $this->froalaEditorFolder.'/css/plugins/video.min';
+                $this->css[] = $this->froalaEditorFolder.'/css/plugins/table.min';
+                $this->css[] = $this->froalaEditorFolder.'/css/plugins/fullscreen.min';
+
+                $this->js[] = $this->froalaEditorFolder.'/js/plugins/colors.min';
+                $this->js[] = $this->froalaEditorFolder.'/js/plugins/lists.min';
+                $this->js[] = $this->froalaEditorFolder.'/js/plugins/video.min';
+                $this->js[] = $this->froalaEditorFolder.'/js/plugins/font_size.min';
+                $this->js[] = $this->froalaEditorFolder.'/js/plugins/table.min';
+                $this->js[] = $this->froalaEditorFolder.'/js/plugins/align.min';
+                $this->js[] = $this->froalaEditorFolder.'/js/plugins/fullscreen.min';
+            }
         }
     }
 
-	protected function assureLogin()
+    public function assureLogin()
 	{
 		if($this->user == null)
 		{
-			$this->error($this->t('error.login'));
+		    $this->setTip('You have to sign in before proceeding');
+            $this->redirect('/');
 		} 
 	}
 }

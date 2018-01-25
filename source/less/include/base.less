@@ -1,0 +1,40 @@
+//For including purpose
+
+@fontStack: "Verdana", "Helvetica Neue", Helvetica, "Microsoft Jhenghei", "Microsoft YaHei", "PingFang HK", "Hiragino Kaku Gothic Pro", "Hiragino Sans GB", Sans-serif;
+@largeScreenConfig: ~"only screen and (min-width: 1250px)";
+@phoneScreenConfig: ~"only screen and (max-width: 600px)";
+@notPhoneScreenConfig: ~"only screen and (min-width: 600px)";
+
+@primaryColor: #152d83;
+@bgColor: #fff;
+@redColor: #d21;
+
+.animate(@property:all) {
+	//No IE ms-version transition, supported from IE 10
+
+	-webkit-transition: @property .25s linear;
+	-moz-transition: @property .25s linear;
+	transition: @property .25s linear;
+
+	@media @phoneScreenConfig
+	{
+		transition: none;
+	}
+}
+
+.scale(@ratio:1.08) {
+	-webkit-transition: all .3s;
+	-moz-transition: all .3s;
+	transition: all .3s;
+	&:hover {
+		-ms-transform: scale(@ratio);
+		-webkit-transform: scale(@ratio);
+		-moz-transform: scale(@ratio);
+		transform:scale(@ratio);
+	}
+
+	@media @phoneScreenConfig
+	{
+		transition: none;
+	}
+}
