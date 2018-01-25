@@ -3,9 +3,14 @@ sudo chmod 777 protected/runtime/
 sudo chmod 777 protected/models/
 sudo chmod 777 assets
 
-##Create database in utf8mb4 encoding
-##Import
 
+##
+Configure Less/UglifyJS for source folder
+
+##
+Create database in utf8mb4 encoding
+
+##
 CREATE TABLE `user` (
   `id` INT UNSIGNED NOT NULL,
   `nickname` VARCHAR(20) NOT NULL,
