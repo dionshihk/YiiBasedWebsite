@@ -2,52 +2,52 @@
 
 class BaseController extends CController
 {
-	/** @var User $user */
-	public $user = null;
+    /** @var User $user */
+    public $user = null;
 
     /** @var LangTools $lang */
     public $lang = null;
 
-	public $currentHighlightKey = null;
-	public $css = array('css/core', 'fontawesome.4.7/font-awesome.min');
-	public $js = array('js/core');	    //jQuery included in HTML top
+    public $currentHighlightKey = null;
+    public $css = array('css/core', 'fontawesome.4.7/font-awesome.min');
+    public $js = array('js/core');	    //jQuery included in HTML top
 
-	public function init()
-	{
+    public function init()
+    {
         $this->layout = '/layouts/main';
         $this->lang = new LangTools();
-		
-		if(!Yii::app()->user->isGuest) 
-		{
-			$this->user = User::model()->findByPk(Yii::app()->user->id);
 
-			if($this->user)
+        if(!Yii::app()->user->isGuest)
+        {
+            $this->user = User::model()->findByPk(Yii::app()->user->id);
+
+            if($this->user)
             {
                 //Check account status: 1 normal, 2 disabled, 3 need verified
 
                 if($this->user->account_status == 2 && $this->id != 'logout') { $this->redirect('/logout/blocked'); }
             }
-		}
-	}
+        }
+    }
 
-	protected function fail()
+    protected function fail()
     {
         $this->error($this->t('error.500'));
     }
 
-	protected function error($info = null, $title = null, $buttonName = null, $buttonLink = '/')
-	{
+    protected function error($info = null, $title = null, $buttonName = null, $buttonLink = '/')
+    {
         if(!$info) $info = $this->t('error.404');
         if(!$title) $title = $this->t('error');
         if(!$buttonName) $buttonName = $this->t('error.button');
 
         $this->pageTitle = $title;
         $this->layout = '/layouts/main';
-		$this->render('//site/error', array('info'=>$info, 'button'=>array($buttonName, $buttonLink)));
-		Yii::app()->end();
-	}
+        $this->render('//site/error', array('info'=>$info, 'button'=>array($buttonName, $buttonLink)));
+        Yii::app()->end();
+    }
 
-	protected function t($key, $replaceText = [])
+    protected function t($key, $replaceText = [])
     {
         return $this->lang->presentText($key, $replaceText);
     }
@@ -60,11 +60,11 @@ class BaseController extends CController
             Yii::app()->user->setFlash($sessionName, $msg);
         }
     }
-    
-	private $isEditorImported = false;
-	private $froalaEditorFolder = 'froala.editor.2.7.3';
 
-	//$mode:
+    private $isEditorImported = false;
+    private $froalaEditorFolder = 'froala.editor.2.7.3';
+
+    //$mode:
     //  1 for admin, with all features
     //  2 for limited feature
     protected function importFroalaEditor($mode)
@@ -107,10 +107,10 @@ class BaseController extends CController
     }
 
     public function assureLogin()
-	{
-		if($this->user == null)
-		{
+    {
+        if($this->user == null)
+        {
             $this->error($this->t('error.login'));
-		} 
-	}
+        }
+    }
 }
