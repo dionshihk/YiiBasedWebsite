@@ -51,19 +51,10 @@ class AWSTools
 
     public static function sendSms($phoneNumber, $content, $isTransactional = true, $senderId = null)
     {
+        //Phone number should be like +8521234567 / 852-12345678
+
         if(!$phoneNumber) return '[Empty Phone]';
         if(!$senderId) $senderId = UserConfig::$websiteName;
-
-        //Process the phone format
-        $phoneArray = explode('-', $phoneNumber);
-        if(count($phoneArray) !== 2) return '[Invalid Phone Format]';
-
-        $regionCode = intval($phoneArray[0]);
-        if(!isset(Country::$data[$regionCode])) return '[Invalid Region Code #'.$regionCode.']';
-        if(!preg_match("/^\d{3,20}$/", $phoneArray[1])) return '[Invalid Phone Part #'.$phoneArray[1].']';
-
-        if($regionCode === 0) $regionCode = 1;      //US +0 to +1
-        $phoneNumber = '+'.$regionCode.$phoneArray[1];
 
         require_once(Tools::getAbsUrl('/assets/aws/aws-autoloader.php'));
 
@@ -82,6 +73,8 @@ class AWSTools
                     'DataType' => 'String',
                     'StringValue' => $senderId,
                 ],
+
+                //Promotional SMS does not show sender ID
                 'AWS.SNS.SMS.SMSType' => [
                     'DataType' => 'String',
                     'StringValue' => $isTransactional ? 'Transactional' : 'Promotional',

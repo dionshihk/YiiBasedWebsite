@@ -8,6 +8,11 @@ sudo chmod 777 assets
 
 
 ##
+Remove index.php line:
+defined('YII_DEBUG') or define('YII_DEBUG', true)
+for production mode
+
+##
 Configure Less/UglifyJS for source folder
 
 ##
