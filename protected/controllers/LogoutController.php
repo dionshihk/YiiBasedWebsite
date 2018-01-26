@@ -9,9 +9,7 @@ class LogoutController extends BaseController
 
     public function actionBlocked()
     {
-        $this->error('Sorry, your account is currently disabled and cannot be signed in at this moment.<br>
-            If you have any question about it, please feel free to contact us.',
-            null, 'Logout', '/logout');
+        $this->error($this->t('account.2'), null, $this->t('signout'), '/logout');
     }
 
     public function actionIndex()
