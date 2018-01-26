@@ -26,9 +26,7 @@
             <?php if(strpos($v, $magicFieldTag) === 0):?>
                 <?php $fieldName = substr($v, strlen($magicFieldTag)); ?>
                 <?=$user[$fieldName]?> &nbsp;
-                <?php if($this->canModify):?>
-                    <a class="link" popup="/admin/user/updateFieldPopup?id=<?=$user->id?>&fieldName=<?=$fieldName?>">Edit</a>
-                <?php endif?>
+                <a class="link" popup="/admin/user/updateFieldPopup?id=<?=$user->id?>&fieldName=<?=$fieldName?>">Edit</a>
             <?php else:?>
                 <?=$v?>
             <?php endif?>

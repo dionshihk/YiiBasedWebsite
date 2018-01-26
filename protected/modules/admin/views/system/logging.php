@@ -5,20 +5,20 @@
 <table class="table">
     <tr>
         <th style="width:120px">Operator</th>
-        <th style="width:148px">Time</th>
+        <th style="width:170px">Time</th>
         <th>Logging</th>
     </tr>
     <?php $lastItem = null; foreach($list as $l) {?>
         <tr class="admLog">
-            <?php if($lastItem && $l->user_id && $lastItem->user_id == $l->user_id && $lastItem->gets == $l->gets):?>
+            <?php if($lastItem && $l->user_id && $lastItem->user_id == $l->user_id && $lastItem->url == $l->url):?>
                 <td></td>
             <?php elseif($l->user_id):?>
-                <td tipText="<?=$l->ip?> <?=$l->ua?>"><a class="link" href="/admin/user/detail/<?=$l->user_id?>"><?=$l->name?></a></td>
+                <td tipText="<?=$l->ip?> <?=$l->user_agent?>"><a class="link" href="/admin/user/detail/<?=$l->user_id?>"><?=$l->user_name?></a></td>
             <?php else:?>
-                <td style="color:#bbb" tipText="<?=$l->ua?>"><?=$l->ip?></td>
+                <td style="color:#bbb" tipText="<?=$l->user_agent?>"><?=$l->ip?></td>
             <?php endif?>
             <td><?=$l->time?></td>
-            <td tipText="<?=str_replace('"', '', $l->gets)?>"><?=($l->log)?></td>
+            <td tipText="<?=str_replace('"', '', $l->url)?>"><?=($l->log)?></td>
         </tr>
     <?php $lastItem = $l; }?>
 </table>

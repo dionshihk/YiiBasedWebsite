@@ -1,6 +1,9 @@
 ##
 sudo chmod 777 protected/runtime/
 sudo chmod 777 protected/models/
+sudo chmod 777 adminConfig/*.php
+sudo chmod 777 upload
+sudo chmod 777 uploadOfAdmin
 sudo chmod 777 assets
 
 
@@ -12,7 +15,7 @@ Create database in utf8mb4 encoding
 
 ##
 CREATE TABLE `user` (
-  `id` INT UNSIGNED NOT NULL,
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nickname` VARCHAR(20) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `is_male` TINYINT UNSIGNED NOT NULL DEFAULT 1,
@@ -40,6 +43,7 @@ CREATE TABLE `log` (
   `user_name` TEXT NULL,
   `user_agent` TEXT NOT NULL,
   `url` TEXT NOT NULL,
+  `time` DATETIME NOT NULL,
   `ip` VARCHAR(30) NOT NULL,
   `log` TEXT NOT NULL,
   PRIMARY KEY (`id`));
@@ -79,3 +83,11 @@ CREATE TABLE `mobile_notification_device` (
   PRIMARY KEY (`id`),
   INDEX `AppNotifIdx1` (`user_id` ASC),
   INDEX `AppNotifIdx2` (`token` ASC));
+
+CREATE TABLE `tourway`.`user_auto_email` (
+  `key` CHAR(20) NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL,
+  `create_time` DATETIME NOT NULL,
+  `type` SMALLINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`key`));
+

@@ -1,24 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "log".
+ * This is the model class for table "user_auto_email".
  *
- * The followings are the available columns in table 'log':
- * @property string $id
+ * The followings are the available columns in table 'user_auto_email':
+ * @property string $key
  * @property string $user_id
- * @property string $user_name
- * @property string $time
- * @property string $user_agent
- * @property string $url
- * @property string $ip
- * @property string $log
+ * @property string $create_time
+ * @property integer $type
  */
-class Log extends CActiveRecord
+class UserAutoEmail extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Log the static model class
+	 * @return UserAutoEmail the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -30,7 +26,7 @@ class Log extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'log';
+		return 'user_auto_email';
 	}
 
 	/**
@@ -41,13 +37,13 @@ class Log extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, time, user_agent, url, ip, log', 'required'),
+			array('key, user_id, create_time, type', 'required'),
+			array('type', 'numerical', 'integerOnly'=>true),
+			array('key', 'length', 'max'=>20),
 			array('user_id', 'length', 'max'=>10),
-			array('ip', 'length', 'max'=>30),
-			array('user_name', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, user_id, user_name, time, user_agent, url, ip, log', 'safe', 'on'=>'search'),
+			array('key, user_id, create_time, type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,14 +64,10 @@ class Log extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
+			'key' => 'Key',
 			'user_id' => 'User',
-			'user_name' => 'User Name',
-			'time' => 'Time',
-			'user_agent' => 'User Agent',
-			'url' => 'Url',
-			'ip' => 'Ip',
-			'log' => 'Log',
+			'create_time' => 'Create Time',
+			'type' => 'Type',
 		);
 	}
 
@@ -90,14 +82,10 @@ class Log extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
+		$criteria->compare('key',$this->key,true);
 		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('user_name',$this->user_name,true);
-		$criteria->compare('time',$this->time,true);
-		$criteria->compare('user_agent',$this->user_agent,true);
-		$criteria->compare('url',$this->url,true);
-		$criteria->compare('ip',$this->ip,true);
-		$criteria->compare('log',$this->log,true);
+		$criteria->compare('create_time',$this->create_time,true);
+		$criteria->compare('type',$this->type);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

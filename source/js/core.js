@@ -174,7 +174,23 @@ function pop(t) {
     $('#topPopBox .core').html('<i class="fa fa-info-circle fa-lg"></i>' + t).show();
     setTimeout(function () {
         $('#topPopBox .core').fadeOut();
-    }, 2400);
+    }, 3200);
+}
+
+function popAlert(e, hideOkButton) {
+    pend(1);
+    if($("#facebox").length)
+    {
+        e = e.replace("<br>", "\n");
+        alert(e);
+    }
+    else
+    {
+        $.facebox({
+            div: '<div style="font-size:14px">' + e + '</div><div class="blackButton" style="' + (hideOkButton ? 'display:none' : 'margin-top:20px') + '" onclick="$.facebox.close()">OK</div>',
+            title: ""
+        });
+    }
 }
 
 
@@ -256,8 +272,44 @@ function systemLogin()
         $.get('/site/ajaxLogin?name=' + n + '&pass=' + p, function(d)
         {
             if(d != '0') { $('#loginForm').attr('action', '/site/index?returnUrl=' + uri).submit(); }
-            else { pop('Your account name or password is incorrect.'); }
+            else { pop(window.signinFailText); }
         });
+    }
+}
+
+function clearInputTip($form) {
+    $form.find('.errorTip').remove();
+    $form.find('input.err,textarea.err').removeClass('err');
+}
+
+function addInputTip($input, tipText, className)
+{
+    //For $input inside .formRow > .right
+
+    if(!className) className = 'errorTip';
+    var $tip = $input.parent().find('.' + className);
+    if(!$tip.length)
+    {
+        $tip = $('<div class="' + className + '"/>').insertAfter($input);
+    }
+
+    $input.addClass('err').focus();
+    $tip.html(tipText);
+}
+
+function preventPageLeave(isOn) {
+    if (isOn)
+    {
+        window.disablePending = 1;
+        if (!window.onbeforeunload)
+        {
+            //This text does not show in most modern browsers
+            window.onbeforeunload = function () { return 'Are you sure to leave?'; };
+        }
+    }
+    else {
+        window.disablePending = 0;
+        window.onbeforeunload = null;
     }
 }
 

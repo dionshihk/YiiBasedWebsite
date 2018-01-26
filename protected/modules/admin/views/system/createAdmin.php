@@ -35,7 +35,7 @@
     </div>
     <div class="item" style="margin-top:19px">
         <span class="leftItem"></span>
-        <span class="rightItem"><div class="blackButton" onclick="submitCreateAdmin()">保存</div></span>
+        <span class="rightItem"><div class="blackButton" onclick="submitCreateAdmin()">Save</div></span>
     </div>
 </div>
 

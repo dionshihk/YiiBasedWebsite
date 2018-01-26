@@ -1,10 +1,8 @@
 $(function(){
-    $('#bodyLeft .l2').click(function(){
-        window.location = $(this).attr('link');
-    }).each(function(){
-        var l = $(this).attr('link');
-        if(uri.lastIndexOf('/') == uri.indexOf('/')) { uri += '/index'; }
-        if(uri.indexOf(l) == 0)
+    if(uri === '/admin/basic' || uri === '/admin/basic/') uri = '/admin/basic/index';
+    $('#bodyLeft .l2').each(function(){
+        var l = $(this).attr('href');
+        if(uri.indexOf(l) === 0)
         {
             $(this).addClass('sel');
             return false;
@@ -12,8 +10,8 @@ $(function(){
     });
 
     $('#bodyLeft .l0').each(function(){
-        var m = $(this).attr('relModule');
-        if(uri.indexOf(m) == 1)
+        var m = '/admin/' + $(this).attr('relModule');
+        if(uri.indexOf(m) === 0)
         {
             $(this).addClass('sel');
             $('#bodyLeft').scrollTop($(this).offset().top);
@@ -77,7 +75,7 @@ function resetPassword(uid)
 function confirmThenReload(url, id, actionName)
 {
     if(!actionName) actionName = 'Delete';
-    if(confirm('Are you sure about the following action:\n' + actionName))
+    if(confirm('你確定要執行「' + actionName + '」嗎？'))
     {
         $.get(url, id ? {id: id} : {}, function(){
             location.reload();

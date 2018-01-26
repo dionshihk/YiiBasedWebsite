@@ -109,14 +109,15 @@ class UserTools
             $u = new User();
             $u->attributes = Tools::processPostInput($postFormName, array('password', 'avatar_url'));
             $u->password = Tools::encryptPassword($u->password);
-            $u->profile_cover_url = UserConfig::$defaultUserProfileCoverImage;
             $u->reg_time = Tools::now();
+            $u->account_status = 3;
             $u->last_login_time = $u->reg_time;
             UserTools::normalizeUserAttributes($u);
 
             Tools::saveModel($u);
             Tools::log('Sign up #'.$u->id, 'info', $u);
-            EmailTools::send($u->email, 'signup', $u->id);
+
+            UserTools::sendAutoEmail($u, 1);
 
             return $u;
         }
@@ -185,5 +186,33 @@ class UserTools
 
         if(!$user->avatar_url)
             $user->avatar_url = $user->is_male ? UserConfig::$defaultAvatarFile : UserConfig::$defaultAvatarFileForFemale;
+    }
+
+    public static function sendAutoEmail($user, $type)
+    {
+        //$type: 1 for email verification, 2 for reset password
+
+        $type = intval($type);
+        do
+        {
+            $validateKey = Tools::genCode(20, true);
+        }
+        while(UserAutoEmail::model()->exists("`key` = '".$validateKey."'"));
+
+        $record = new UserAutoEmail();
+        $record->key = $validateKey;
+        $record->user_id = $user->id;
+        $record->create_time = Tools::now();
+        $record->type = $type;
+        Tools::saveModel($record);
+
+        if($type === 1)
+        {
+            EmailTools::send($user->email, 'verify', $user->id, $validateKey);
+        }
+        elseif($type === 2)
+        {
+            EmailTools::send($user->email, 'resetPassword', $user->id, $validateKey);
+        }
     }
 }

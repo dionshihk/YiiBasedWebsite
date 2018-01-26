@@ -117,7 +117,7 @@ class UserController extends AdminBaseController
         $fc = new CDbCriteria();
         $fc->addCondition('account_status = 3');
 
-        $this->pageTitle = '待驗證會員列表';
+        $this->pageTitle = '待驗證用戶列表';
         $this->renderList($fc, $page);
     }
 

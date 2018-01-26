@@ -5,11 +5,11 @@
 	position: fixed; left: 0; top: 0; bottom: 0; overflow-x: hidden; overflow-y: scroll;
 	background: #000; width: 190px; color: #fff; padding-bottom: 30px;
 
-	#adminLogo { margin: 18px auto; width:96%; }
+	.title { font-size: 20px; display: block; color: #eee; font-weight: bold; margin: 10px 12px; }
 	.l0 { border-top: 1px dotted #666; padding-bottom: 12px; }
 	.l0.sel { background: #343536; }
 	.l1 { font-size: 16px; padding: 5px 12px; color: #777; }
-	.l2 { font-size: 13px; padding: 3px 33px; }
+	.l2 { font-size: 13px; padding: 3px 30px; display: block; color: #eee; }
 	.l2:hover { background: #444; cursor: pointer; color: #fff; }
 	.l2.sel { background: limegreen; color: #fff; }
 
@@ -47,6 +47,8 @@
 .simpleBox { background: #F2F2F2; border: 1px solid #aaaaaa; min-height: 100px; margin: 30px auto; width: 98%; padding: 30px; }
 .simpleBox h3 { font-size: 15px; padding: 5px 0; font-weight: normal; }
 .admLog td i { color:@primaryColor; font-weight: bold; }
+.admLog td .error { background: @redColor; color: #fff; margin: -4px -8px; padding:4px 8px; }
+.admLog td .error i { color: yellow; }
 
 #bodyRight .pages { float: none; clear: both; }
 
@@ -137,7 +139,6 @@
 }
 
 //In popup boxes, the left/right items are not within "item" class
-
 .leftItem
 {
 	display: inline-block; width: 150px; vertical-align: top; text-align: right; margin-bottom: 8px;
@@ -200,6 +201,11 @@
 	}
 }
 
+#codeInput
+{
+	width: 100%; height: 520px; border:2px solid #44cc22; color: #44cc22; background: #000; font-size: 14px; margin-bottom: 10px;
+	font-family: "Courier New", monospace;
+}
 
 #authCheckBox
 {

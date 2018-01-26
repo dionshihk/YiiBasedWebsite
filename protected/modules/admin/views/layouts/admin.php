@@ -2,10 +2,7 @@
 <html><head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=0.8">
-    <!--[if lte IE 9]><script>alert("<?=$this->t('error.ie')?>");</script><![endif]-->
-
     <link href="/favicon.ico" rel="shortcut icon">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
     <?php foreach($this->css as $c):?>
         <link rel="stylesheet" type="text/css" href="<?=UserConfig::$staticFileRoot?>/<?=$c?>.css"/>
     <?php endforeach ?>
@@ -15,15 +12,15 @@
 </head>
 <body>
 <div id="bodyLeft">
-    <div id="mobileExpander" onclick="$('#bodyLeftMainMenu').slideToggle()"><i class="fa fa-list fa-lg"></i>Mask Club Menu</div>
+    <div id="mobileExpander" onclick="$('#bodyLeftMainMenu').slideToggle()"><i class="fa fa-list fa-lg"></i><?=UserConfig::$websiteName?> Menu</div>
     <div id="bodyLeftMainMenu">
-        <a href="/"><img id="adminLogo" src="/assets/logo.png"></a>
+        <a class="title" href="/"><?=UserConfig::$websiteName?></a>
         <?php foreach($this->moduleList as $k=>$v):?>
             <?php if(!$this->can($k)) continue;  ?>
             <div class="l0" relModule="<?=$k?>">
                 <div class="l1">›› <?=$v[0]?></div>
                 <?php foreach($v[1] as $k1=>$v1):?>
-                    <div link="/admin/<?=$k?>/<?=str_replace('*', '', $k1)?>" class="l2"><?=$v1?></div>
+                    <a href="/admin/<?=$k?>/<?=str_replace('*', '', $k1)?>" class="l2"><?=$v1?></a>
                 <?php endforeach?>
             </div>
         <?php endforeach?>
@@ -46,7 +43,7 @@
 <div id="goToTopLabel" style="opacity:1" onclick="scrollToTop()"><i class="fa fa-lg fa-fw fa-chevron-up"></i></div>
 
 <script type="text/javascript">
-    var isAdminMode = true, currentUserId = <?=$this->user->id?>';
+    var isAdminMode = true, currentUserId = <?=$this->user->id?>;
 </script>
 <?php foreach($this->js as $j):?>
     <script type="text/javascript" src="<?=UserConfig::$staticFileRoot?>/<?=$j?>.js"></script>

@@ -78,21 +78,30 @@ class EmailController extends CController
         return '<b style="margin:0 3px;">'.$text.'</b>';
     }
 
-    //Below are for test
-
     public function actionTestAll()
     {
         $this->name = 'Jack';
+
+        $code = Tools::genCode(20, true);
         $list = array(
-            array('verify', '123456', ''),
-            array('resetPassword', 'abcdefg12345', ''),
+            array('verify', $code, ''),
+            array('resetPassword', $code, ''),
         );
 
         foreach($list as $item)
         {
-            list($emailTitle, $emailBody) = $this->getEmailTemplateData($item[0], $item[1], $item[2]);
-            echo '<h2>'.$emailTitle.'</h2>';
-            echo $emailBody.'<br><br>';
+            try
+            {
+                list($emailTitle, $emailBody) = $this->getEmailTemplateData($item[0], $item[1], $item[2]);
+                echo '<h2>'.$emailTitle.'</h2>';
+                echo $emailBody;
+            }
+            catch (Exception $ex)
+            {
+                echo 'Exception for #'.$item[0].': '.$ex->getMessage();
+            }
+
+            echo '<br><br>';
         }
 
     }

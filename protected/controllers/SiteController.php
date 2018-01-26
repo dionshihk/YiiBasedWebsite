@@ -77,7 +77,7 @@ class SiteController extends BaseController
 
         if($identity->errorCode === UserIdentity::ERROR_NONE)
         {
-            $durationDay = $rememberLogin ? 100 : 0;
+            $durationDay = $rememberLogin ? 10 : 0;
             Yii::app()->user->login($identity, $durationDay * 24 * 3600);
 
             $this->user = User::model()->findByPk(Yii::app()->user->id);

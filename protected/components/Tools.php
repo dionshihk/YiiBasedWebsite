@@ -39,9 +39,9 @@ class Tools
         return $currentUrl;
     }
 
-    public static function logException($exception, $specifiedUser = null)
+    public static function logException(Exception $exception, $specifiedUser = null)
     {
-        $errorMessage = get_class($exception).': '.$exception->getMessage();
+        $errorMessage = get_class($exception).': <i>'.$exception->getMessage().'</i><br>'.$exception->getFile().' #'.$exception->getLine();
         Tools::log($errorMessage, 'error', $specifiedUser);
     }
 
@@ -172,8 +172,7 @@ class Tools
 
 	public static function asyncCallByCurl($action, $getParam)
     {
-        $serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : UserConfig::$defaultDomain.'.'.UserConfig::$domain;
-        $fullUrl = UserConfig::$protocol.$serverName.$action.'?'.$getParam;
+        $fullUrl = UserConfig::$baseUrl.$action.'?'.$getParam;
         $commandLine = 'curl -k -L "'.$fullUrl.'" >/dev/null &';
 
         exec($commandLine, $_, $retVal);
@@ -277,8 +276,9 @@ class Tools
         //Return relative URL
 
         $uniqueName = uniqid($namePrefix ? ($namePrefix.'.') : '', true);
-        $targetFolder = '/uploadV2/'.date("Y-m/d").'/';
+        $targetFolder = '/upload/'.date("Y-m/d").'/';
         $absTargetFolder = Tools::getAbsUrl($targetFolder);
+
         if(!file_exists($absTargetFolder) && !mkdir($absTargetFolder, 0777, true))
             throw new Exception('Fail to create ['.$targetFolder.']');
 

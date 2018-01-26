@@ -5,14 +5,17 @@ class BaseController extends CController
 	/** @var User $user */
 	public $user = null;
 
-	public $currentHighlightKey = null;
+    /** @var LangTools $lang */
+    public $lang = null;
 
+	public $currentHighlightKey = null;
 	public $css = array('css/core', 'fontawesome.4.7/font-awesome.min');
 	public $js = array('js/core');	    //jQuery included in HTML top
 
 	public function init()
 	{
         $this->layout = '/layouts/main';
+        $this->lang = new LangTools();
 		
 		if(!Yii::app()->user->isGuest) 
 		{
@@ -22,28 +25,32 @@ class BaseController extends CController
             {
                 //Check account status: 1 normal, 2 disabled, 3 need verified
 
-                if($this->user->status == 1 && $this->id != 'logout') { $this->redirect('/logout'); }
+                if($this->user->account_status == 2 && $this->id != 'logout') { $this->redirect('/logout/blocked'); }
             }
 		}
 	}
 
 	protected function fail()
     {
-        $this->error("We are unable to process your request now.<br>Please check your network and retry later.");
+        $this->error($this->t('error.500'));
     }
-
 
 	protected function error($info = null, $title = null, $buttonName = null, $buttonLink = '/')
 	{
-        if(!$info) $info = 'Sorry, the page that you are visiting does not exist.';
-        if(!$title) $title = 'Error';
-        if(!$buttonName) $buttonName = 'Back To Home';
+        if(!$info) $info = $this->t('error.404');
+        if(!$title) $title = $this->t('error');
+        if(!$buttonName) $buttonName = $this->t('error.button');
 
         $this->pageTitle = $title;
         $this->layout = '/layouts/main';
 		$this->render('//site/error', array('info'=>$info, 'button'=>array($buttonName, $buttonLink)));
 		Yii::app()->end();
 	}
+
+	protected function t($key, $replaceText = [])
+    {
+        return $this->lang->presentText($key, $replaceText);
+    }
 
     protected function setTip($msg)
     {
@@ -103,8 +110,7 @@ class BaseController extends CController
 	{
 		if($this->user == null)
 		{
-		    $this->setTip('You have to sign in before proceeding');
-            $this->redirect('/');
+            $this->error($this->t('error.login'));
 		} 
 	}
 }

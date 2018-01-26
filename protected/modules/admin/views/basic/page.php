@@ -28,5 +28,5 @@ function previewInPop()
     $.facebox({div:'<div style="width:880px" class="defaultFroalaEditorPresent">' + t + '</div>', title:'Preview'});
 }
 
-function onHtmlEditorChange() { preventPageLeave(1,1); }
+function onHtmlEditorChange() { preventPageLeave(1); }
 </script>

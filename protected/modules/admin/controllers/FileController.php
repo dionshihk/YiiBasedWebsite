@@ -70,7 +70,7 @@ class FileController extends AdminBaseController
 
                     if($extension == 'php')
                     {
-                        Tools::log('PHP File upload detected, rejected: <i>'.$fileName.'</i>');
+                        Tools::log('PHP File upload detected, rejected: <i>'.$fileName.'</i>', 'error');
                     }
                     else
                     {

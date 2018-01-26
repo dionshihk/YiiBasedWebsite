@@ -14,9 +14,7 @@
                 </div>
             <?php endif?>
             <input readonly="readonly" value="<?=$url?>">
-            <?php if($this->canModify):?>
-                <a class="link" href="javascript:deleteAdminFile('<?=$l?>')">Delete</a>
-            <?php endif?>
+            <a class="link" href="javascript:deleteAdminFile('<?=$l?>')">Delete</a>
         </div>
     <?php endforeach?>
 

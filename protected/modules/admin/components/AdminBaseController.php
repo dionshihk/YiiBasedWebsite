@@ -135,7 +135,7 @@ class AdminBaseController extends BaseController
             Tools::saveModel($model);
 
             $this->setTip('頁面內容更新成功');
-            Tools::log('Update dynamic page <i>'.$fullKey.'</i>');
+            Tools::log('Update dynamic page: <i>'.$fullKey.'</i>');
         }
 
         if($model->last_modified_time)
@@ -145,7 +145,7 @@ class AdminBaseController extends BaseController
 
         $this->importFroalaEditor(1);
         $this->pageTitle = '修改: '.$title;
-        $this->render('//admin/basic/page', array(
+        $this->render('/basic/page', array(
             'model'=>$model,
             'key'=>$key,
             'previewPageUrl'=>$previewPageUrl,
@@ -171,12 +171,12 @@ class AdminBaseController extends BaseController
 
             if(!is_writable($fullFile))
             {
-                Tools::log('Disallowed to modify: <i>'.$file.'</i>');
+                Tools::log('Disallowed to modify: <i>'.$file.'</i>', 'error');
                 $this->setTip('修改失敗，文件系統禁止修改（Read-Only File Access），請聯絡管理員處理');
             }
             elseif($latestLmt != $submittedLmt)
             {
-                Tools::log('Inconsistent version: <i>'.$file.'</i>, earlier/latest: <i>'.$submittedLmt.'</i> / <i>'.$latestLmt.'</i>');
+                Tools::log('Inconsistent version: <i>'.$file.'</i>, earlier/latest: <i>'.$submittedLmt.'</i> / <i>'.$latestLmt.'</i>', 'error');
                 $this->setTip('修改失敗，該文件已不是最新版本，請 refresh 頁面後重新編輯');
             }
             else
@@ -186,7 +186,7 @@ class AdminBaseController extends BaseController
                 if($result)
                 {
                     Tools::log('Modify <i>' . $file . '</i>: <i>'.$result.'</i>');
-                    $this->setTip('修改失敗，語法有誤（錯誤信息已 logging），請檢查修改後再次保存');
+                    $this->setTip('修改失敗，語法有誤（錯誤信息已 logging），請檢查修改後再次保存', 'error');
                 }
                 else
                 {
@@ -203,7 +203,7 @@ class AdminBaseController extends BaseController
         $lmt = $submittedLmt ? $submittedLmt : date("Y-m-d H:i:s", filemtime($fullFile));
         $this->pageTitle = '修改: '.$title;
         $this->pageIntroduction = '該文件為 PHP Code，不熟悉請勿修改，上次修改時間：'.$lmt;
-        $this->render('//admin/basic/php', array(
+        $this->render('/basic/php', array(
             'code'=>$code,
             'file'=>$file,
             'relValue'=>$relValue,

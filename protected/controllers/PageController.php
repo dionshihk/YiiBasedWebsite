@@ -9,25 +9,25 @@ class PageController extends BaseController
 
 	public function actionFaq()
     {
-        $this->pageTitle = 'FAQ';
+        $this->pageTitle = $this->t('faq');
         $this->render('faq');
     }
 
     public function actionAbout()
     {
-        $this->pageTitle = 'About US';
+        $this->pageTitle = $this->t('about');
         $this->render('about');
     }
 
     public function actionTerms()
     {
-        $this->pageTitle = 'Terms & Conditions';
+        $this->pageTitle = $this->t('terms');
         $this->render('terms');
     }
 
     public function actionPrivacy()
     {
-        $this->pageTitle = 'Privacy Policy';
+        $this->pageTitle = $this->t('privacy');
         $this->render('privacy');
     }
 }

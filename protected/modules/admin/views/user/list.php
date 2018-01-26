@@ -8,7 +8,7 @@
         <th>Nickname</th>
         <th>Email</th>
 
-        <th class="hiddenForMobile" style="width:166px">註冊時間</th>
+        <th class="hiddenForMobile" style="width:170px">註冊時間</th>
         <th style="width:200px">操作</th>
     </tr>
     <?php foreach($list as $l): ?>
@@ -20,7 +20,7 @@
             <td><?=$l->nickname?></td>
             <td><a class="link" href="mailto:<?=$l->email?>"><?=$l->email?></a></td>
 
-            <td class="t hiddenForMobile"><?=$l->join_time?></td>
+            <td class="t hiddenForMobile"><?=$l->reg_time?></td>
             <td>
                 <a class="link" href="/admin/user/detail/<?=$l->id?>">詳細資料</a>
                 <a class="link" href="javascript:resetPassword(<?=$l->id?>)">重設密碼</a>

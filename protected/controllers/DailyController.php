@@ -16,10 +16,23 @@ class DailyController extends BaseController
     public function actionIndex()
     {
         $output = array();
+        $output[] = $this->clearExpiredMobileSessions();
+        $output[] = $this->clearExpiredAutoEmails();
 
-        $result = 'Daily routine:<br>'.implode('<br>', $output);
+        $result = implode('<br>', $output);
         Tools::log($result);
         echo $result;
     }
 
+    private function clearExpiredMobileSessions()
+    {
+        $count = MobileSessionToken::model()->deleteAll('expire_time < DATE_ADD(NOW(), INTERVAL -1 MINUTE)');
+        return 'Remove expired-mobile-session: <i>'.$count.'</i>';
+    }
+
+    private function clearExpiredAutoEmails()
+    {
+        $count = UserAutoEmail::model()->deleteAll('create_time < DATE_ADD(NOW(), INTERVAL -12 HOUR)');
+        return 'Remove user-auto-email: <i>'.$count.'</i>';
+    }
 }

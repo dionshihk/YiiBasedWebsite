@@ -2,8 +2,6 @@
 
 class UserConfig
 {
-    public static $domain = null;
-    public static $protocol = null;
     public static $baseUrl = null;
     public static $websiteName = null;
 
@@ -37,15 +35,11 @@ class UserConfig
 $runningMode = Tools::mode();
 if($runningMode == 1)
 {
-    UserConfig::$domain = 'tourway.site';
-    UserConfig::$protocol = 'http://';
-    UserConfig::$websiteName = '(Local)';
+    UserConfig::$baseUrl = 'http://tourway.site';
+    UserConfig::$websiteName = 'Tourway (Local)';
 }
 elseif($runningMode == 2)
 {
-    UserConfig::$domain = 'tourway.org';
-    UserConfig::$protocol = 'https://';
+    UserConfig::$baseUrl = 'https://tourway.org';
     UserConfig::$websiteName = 'Tourway';
 }
-
-UserConfig::$baseUrl = UserConfig::$protocol.UserConfig::$domain;

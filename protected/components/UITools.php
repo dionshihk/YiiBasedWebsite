@@ -90,21 +90,11 @@ class UITools
         }
         else
         {
-            $currentDomain = Tools::getLangObjectFromContext()->currentDomain;
-            $model = DynamicPage::model()->findByPk($key.'.'.$currentDomain);
+            $model = DynamicPage::model()->findByPk($key);
             if($model)
             {
                 echo $model->content;
             }
-            elseif ($currentDomain != UserConfig::$defaultDomain)
-            {
-                $fallbackModel = DynamicPage::model()->findByPk($key.'.'.UserConfig::$defaultDomain);
-                if($fallbackModel)
-                {
-                    echo $fallbackModel->content;
-                }
-            }
-
         }
     }
 

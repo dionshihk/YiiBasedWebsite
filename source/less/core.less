@@ -31,8 +31,8 @@ input, textarea { outline: none; resize: none; }
 		margin-left: 12px;
 
 		input, select { height: 26px; line-height: 26px; }
-		p { color: #bbb; font-size: 13px; margin-top: 5px; }
-		p.red { color: @redColor; font-weight: bold; }
+		.tip { color: #bbb; font-size: 13px; margin-top: 5px; }
+		.errorTip { color: @redColor; font-size: 13px; margin-top: 5px; font-weight: bold; }
 	}
 
 	.bioRight { display: inline-block; vertical-align:top; margin-left:12px }
@@ -65,7 +65,8 @@ a.fbConnectButton {
 #textTipBox { display: none; position: fixed; background: rgba(0,0,0,0.8); color: #fff; padding:3px 9px; border-radius: 4px; z-index: 120; font-size: 14px; }
 
 #jmpOverlay { position: fixed; display: none; z-index: 888; background: rgba(0, 0, 0, 0.6); left: 0; top: 0; right:0; bottom: 0; }
-#jmpBox { position: fixed; display: none; z-index: 889; text-align: center; width: 100%; top:240px; }
+#jmpBox { position: fixed; display: none; z-index: 889; text-align: center; width: 100%; top:44%; }
+#jmpBox img { width: 38px; }
 
 .center {
 	width: 96%;
@@ -89,10 +90,10 @@ a.fbConnectButton {
 }
 
 input.sys, textarea.sys { width: 360px; font-size: 14px; border: 1px solid #aaa; height: 30px; line-height: 30px; padding: 0 5px; }
-input.sys:focus, textarea.sys:focus { box-shadow: 0 0 6px rgba(0, 0, 0, 0.3); border-color:@primaryColor; color: @primaryColor; }
-input.err, textarea.err { box-shadow: none !important;  border-color:@redColor!important; }
-input.disable, textarea.disable { background-color: #eee; box-shadow: none; color: #999; border-color: #aaa; cursor: not-allowed; }
-input.disable:focus, textarea.disable:focus { box-shadow: none; border-color: #aaa; color: #999; }
+input.sys:focus, textarea.sys:focus { border-color:@primaryColor; color: @primaryColor; }
+input.err, textarea.err { border-color:@redColor!important; }
+input.disable, textarea.disable { background-color: #eee; color: #999; border-color: #aaa; cursor: not-allowed; }
+input.disable:focus, textarea.disable:focus { border-color: #aaa; color: #999; }
 textarea.sys { height: 180px; }
 select.sys { width: 400px; height: 30px; line-height: 30px; border: 1px solid #888; }
 

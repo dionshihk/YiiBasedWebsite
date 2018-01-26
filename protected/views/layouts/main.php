@@ -20,6 +20,7 @@
 </head>
 <body>
     <div id="header">
+
     </div>
 
     <?=$content?>
@@ -29,12 +30,15 @@
     </div>
 
     <script type="text/javascript">
-        var currentUserId = <?=$this->user?$this->user->id:0?>';
+        var currentUserId = <?=$this->user?$this->user->id:0?>;
         $('[relHighlightKey="<?=$this->currentHighlightKey?>"]').addClass('sel');
-        <?php $sessionTip = Yii::app()->user->getFlash('tip'); ?>
-        <?php if($sessionTip):?>
-            pop('<?=$sessionTip?>');
-        <?php endif?>
+
+        $(function() {
+            <?php
+                $sessionTip = Yii::app()->user->getFlash('tip');
+                if($sessionTip) { echo 'pop('.json_encode($sessionTip).');'; }
+            ?>
+        });
     </script>
     <?php foreach($this->js as $j):?>
         <script type="text/javascript" src="<?=UserConfig::$staticFileRoot?>/<?=$j?>.js"></script>
