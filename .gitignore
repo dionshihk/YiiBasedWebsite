@@ -1,2 +1,6 @@
 protected/runtime/*
 .idea/*
+static/css/*
+static/js/*
+upload/*
+uploadOfAdmin/*

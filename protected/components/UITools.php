@@ -60,28 +60,6 @@ class UITools
         echo '</div>';
     }
 
-    public static function echoDatePicker($id, $name, $placeHolder = "",
-                                          $classes = array(), $enableOldDateSelect = false,
-                                          $value = "", $editable = true)
-    {
-        $cs = Yii::app()->getClientScript();
-        $cs->registerScriptFile(UserConfig::$staticFileRoot.'/js/datepicker.js');
-        $cs->registerCssFile(UserConfig::$staticFileRoot.'/css/datepicker.css');
-
-        $classes[] = 'disable-drag';
-        if(!$enableOldDateSelect)
-        {
-            $classes[] = 'disable-19700101-'.date("Ymd");
-        }
-
-        echo '<input maxlength="12" name="'.$name.'" value="'.$value.'" placeholder="'.$placeHolder.'" type="text" id="'.$id.'" class="w16em dateformat-Y-ds-m-ds-d';
-
-        foreach($classes as $c) { echo ' '.$c; }
-        if(!$editable) echo '" readonly="readonly';
-
-        echo '">';
-    }
-
     public static function echoDynamicPage($key)
     {
         if(isset($_POST['preview_'.$key]))

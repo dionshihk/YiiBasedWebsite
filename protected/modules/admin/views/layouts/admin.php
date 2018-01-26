@@ -40,8 +40,6 @@
     </div>
 
 </div>
-<div id="goToTopLabel" style="opacity:1" onclick="scrollToTop()"><i class="fa fa-lg fa-fw fa-chevron-up"></i></div>
-
 <script type="text/javascript">
     var isAdminMode = true, currentUserId = <?=$this->user->id?>;
 </script>

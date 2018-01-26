@@ -149,7 +149,7 @@ class UserController extends AdminBaseController
         $list = UserNotification::model()->findAll($fc);
 
         $this->pageTitle = '通知管理';
-        $this->pageIntroduction = '會員帳號: '.$u->first_name.' '.$u->last_name.'，已收到通知數: '.count($list);
+        $this->pageIntroduction = '已收到通知數: '.count($list);
         $this->render('notification', array(
             'user'=>$u,
             'list'=>$list,
