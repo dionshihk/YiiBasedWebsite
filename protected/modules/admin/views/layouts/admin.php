@@ -20,7 +20,7 @@
             <div class="l0" relModule="<?=$k?>">
                 <div class="l1">›› <?=$v[0]?></div>
                 <?php foreach($v[1] as $k1=>$v1):?>
-                    <a href="/admin/<?=$k?>/<?=str_replace('*', '', $k1)?>" class="l2"><?=$v1?></a>
+                    <a href="/admin/<?=$k?>/<?=$k1?>" class="l2"><?=$v1?></a>
                 <?php endforeach?>
             </div>
         <?php endforeach?>
