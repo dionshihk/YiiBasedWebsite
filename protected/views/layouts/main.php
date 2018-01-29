@@ -20,7 +20,7 @@
 </head>
 <body>
     <div id="header">
-
+        <img src="/assets/image/logo.png">
     </div>
 
     <?=$content?>
