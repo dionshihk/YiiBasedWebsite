@@ -50,7 +50,7 @@ return [
     'about'=>'About Us',
 
     'account.1'=>'Forgot Password ?',
-    'account.2'=>'Sorry, your account is currently disabled and cannot be signed in at this moment.<br>If you have any question about it, please feel free to contact us.',
+    'account.2'=>'Sorry, your account is currently disabled and cannot be used at this moment.<br>If you have any question about it, please feel free to contact us.',
     'account.3'=>'Remember My Account On This Device',
     'account.4'=>'Your account name or password is incorrect',
     'account.5'=>'Please enter the email address you used to register',

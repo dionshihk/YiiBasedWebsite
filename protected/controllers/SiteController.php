@@ -58,7 +58,7 @@ class SiteController extends BaseController
         {
             if(isset($e['message']) && isset($e['file']) && isset($e['line']))
             {
-                Tools::log('500: <i>'.$e['message'].' ['. $e['file'].' #'.$e['line'].']</i>', 'error');
+                Tools::log('500: <i>'.$e['message'].'</i><br>'. $e['file'].' #'.$e['line'], 'error');
                 $this->fail();
             }
 
