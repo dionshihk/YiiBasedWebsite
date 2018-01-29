@@ -19,15 +19,19 @@
     <title><?=$this->pageTitle?> ›› <?=UserConfig::$websiteName?></title>
 </head>
 <body>
-    <div id="header">
-        <img src="/assets/image/logo.png">
-    </div>
+    <header>
+        <div class="center">
+            <img id="headerLogo" src="/assets/image/logo.png">
+        </div>
+
+    </header>
+    <div id="headerHolder"></div>
 
     <?=$content?>
 
-    <div id="footer">
+    <footer>
 
-    </div>
+    </footer>
 
     <script type="text/javascript">
         var currentUserId = <?=$this->user?$this->user->id:0?>;
