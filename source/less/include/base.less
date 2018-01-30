@@ -38,3 +38,24 @@
 		transition: none;
 	}
 }
+
+.translateDown(@distance:5px) {
+	-webkit-transition: all .3s;
+	-moz-transition: all .3s;
+	transition: all .3s;
+	&:hover {
+		-ms-transform: translateY(@distance);
+		-webkit-transform: translateY(@distance);
+		-moz-transform: translateY(@distance);
+		transform:translateY(@distance);
+	}
+
+	@media @phoneScreenConfig
+	{
+		transition: none;
+	}
+}
+
+.translateUp(@distance:5px) {
+	.translateDown(-@distance);
+}

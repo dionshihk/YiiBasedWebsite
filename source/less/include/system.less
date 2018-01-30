@@ -57,6 +57,19 @@
   a:hover, span { background: @primaryColor; border-color: @primaryColor; color: #FFFFFF; }
 }
 
+.ajaxPlContainer
+{
+  .core { }
+  .load {
+    .default { text-align: center; margin:20px 0 0; font-size: 22px; color: #aaa; .translateDown(); }
+    .default i.fa { margin-left: 8px; vertical-align: middle; }
+    .default:hover { cursor:pointer; color: #222; }
+
+    &.loading { text-align: center; }
+    &.loading img { width: 610px; }
+  }
+}
+
 .imgMagnifyContainer {
   position: relative;
 

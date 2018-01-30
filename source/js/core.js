@@ -405,7 +405,7 @@ function scrollToTop() {
     {
         pageSize: 0,    //Use this can avoid unnecessary show "Load More"
         loadMoreText: 'Load More',
-        loadingHtml: '<img src="/assets/ajaxLoading.gif">',
+        loadingHtml: '<img src="/assets/image/ajaxLoading.gif">',
         nothingHtml: '',
         nothingCallback: $.noop,
         pageParameterName: 'page',
