@@ -10,8 +10,7 @@
 }
 
 .defaultStyleHiddenList {
-  position: absolute; opacity: 0; top: 43px; left: 0; right: 0; z-index:73;
-  .animate();
+  position: absolute; top: 43px; left: 0; right: 0; z-index:73;
 
   .arrow {
     top: 0; width: 0; height: 0; position: absolute; left: calc(~"50% - 6px");
@@ -32,7 +31,7 @@
   .list .entry:hover { background: #e2e2e2; }
   .list .entry.sel { font-weight: bold; color: @primaryColor; }
 
-  &.shown { top:20px; opacity: 0.95; }
+  &.shown { top:20px; display: block; }
 }
 
 .pages {

@@ -21,7 +21,23 @@
 <body>
     <header>
         <div class="center">
-            <img id="headerLogo" src="/assets/image/logo.png">
+            <a href="/"><img id="headerLogo" src="/assets/image/logo.png"></a>
+            <div class="right">
+                <?php if($this->user):?>
+                    <span class="dropDown" style="z-index:44">
+                        <a><?=$this->user->nickname?> <i class="fa fa-angle-down"></i></a>
+                        <div class="hidden defaultStyleHiddenList">
+                            <div class="list">
+                                <a class="entry" href="/1">Sub 1</a>
+                                <a class="entry" href="/2">Sub 2</a>
+                            </div>
+                            <div class="arrow"></div>
+                        </div>
+                    </span>
+                <?php else:?>
+                    <a class="icon" popup="/site/signinPopup" popupTitle="<?=$this->t('signin')?>"><i class="fa fa-lg fa-user-o"></i></a>
+                <?php endif?>
+            </div>
         </div>
 
     </header>
@@ -29,8 +45,14 @@
 
     <?=$content?>
 
-    <footer>
-
+    <footer class="center">
+        <a href="/page/about" class="nav"><?=$this->t('about')?></a>
+        <a href="/page/terms" class="nav"><?=$this->t('terms')?></a>
+        <a href="/page/privacy" class="nav"><?=$this->t('privacy')?></a>
+        <a href="/page/faq" class="nav"><?=$this->t('faq')?></a>
+        <div class="copyright">
+            <i class="fa fa-copyright"></i> 2018 <?=UserConfig::$websiteName?>
+        </div>
     </footer>
 
     <script type="text/javascript">
