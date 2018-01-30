@@ -64,7 +64,7 @@ return [
     'account.13'=>'This Email has been registered',
     'account.14'=>'Two passwords do not match',
     'account.15'=>'Your password must contain at least 5 characters',
-    'account.16'=>'',
+    'account.16'=>'My Page',
 
     'index.1'=>'Already Have An Account ?'
 

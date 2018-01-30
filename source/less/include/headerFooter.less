@@ -7,10 +7,22 @@ header
 
 	#headerLogo { height:42px; margin:9px 0; .animate(); }
 	.right {
-		position: absolute; right:0; bottom:22px; text-align: right;
+		position: absolute; right:0; bottom:22px;
 
 		a.icon { color: #999; margin-left: 20px; vertical-align: middle; }
 		a.icon:hover { color: @primaryColor; cursor: pointer; }
+	}
+
+	#userDropDownMenu
+	{
+		@height: 38px;
+
+		bottom: -8px; cursor: pointer;
+
+		img { width: @height; height: @height; border-radius: 99px; vertical-align: middle; }
+		.name { vertical-align: middle; margin: 0 9px; line-height: @height; height: @height; }
+		i.fa-angle-down { vertical-align: middle; }
+		.hidden { top:42px; }
 	}
 }
 

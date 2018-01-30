@@ -24,12 +24,14 @@
             <a href="/"><img id="headerLogo" src="/assets/image/logo.png"></a>
             <div class="right">
                 <?php if($this->user):?>
-                    <span class="dropDown" style="z-index:44">
-                        <a><?=$this->user->nickname?> <i class="fa fa-angle-down"></i></a>
-                        <div class="hidden defaultStyleHiddenList">
+                    <span class="dropDown" id="userDropDownMenu">
+                        <img onclick="window.location='/user/<?=$this->user->id?>'" src="<?=$this->user->avatar_url?>">
+                        <a href="/user/<?=$this->user->id?>" class="name"><?=$this->user->nickname?></a>
+                        <i class="fa fa-angle-down"></i>
+                        <div class="hidden defaultStyleHiddenList rightAligned">
                             <div class="list">
-                                <a class="entry" href="/1">Sub 1</a>
-                                <a class="entry" href="/2">Sub 2</a>
+                                <a class="entry" href="/user/<?=$this->user->id?>"><?=$this->t('account.16')?></a>
+                                <a class="entry" href="/logout"><?=$this->t('signout')?></a>
                             </div>
                             <div class="arrow"></div>
                         </div>

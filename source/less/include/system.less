@@ -10,10 +10,10 @@
 }
 
 .defaultStyleHiddenList {
-  position: absolute; top: 43px; left: 0; right: 0; z-index:73;
+  top: 30px; left: 0;
 
   .arrow {
-    top: 0; width: 0; height: 0; position: absolute; left: calc(~"50% - 6px");
+    top: 0; width: 0; height: 0; position: absolute; left: 30px;
     border: 8px solid transparent; border-bottom-color: #ccc; border-top-width: 0;
   }
   .arrow::after
@@ -31,7 +31,8 @@
   .list .entry:hover { background: #e2e2e2; }
   .list .entry.sel { font-weight: bold; color: @primaryColor; }
 
-  &.rightAligned { left:auto; }
+  &.rightAligned { left:auto; right:0; }
+  &.rightAligned .arrow { left:auto; right:30px; }
 }
 
 .pages {
