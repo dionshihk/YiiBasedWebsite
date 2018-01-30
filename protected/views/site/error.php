@@ -1,7 +1,6 @@
-<div id="centerBox" class="center">
-    <div style="padding:40px">
-        <div style="line-height:30px;font-size:18px;"><?php echo $info; ?></div>
-        <br><br>
+<div id="pageContentBox" class="center">
+    <div class="error">
+        <p style="margin-bottom:50px"><?php echo $info; ?></p>
         <a href="<?=$button[1]?>" class="link"><?=$button[0]?></a>
     </div>
 </div>

@@ -66,4 +66,6 @@ return [
     'account.15'=>'Your password must contain at least 5 characters',
     'account.16'=>'',
 
+    'index.1'=>'Already Have An Account ?'
+
 ];

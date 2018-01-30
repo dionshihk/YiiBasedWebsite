@@ -2,29 +2,32 @@
 
 header
 {
-	z-index:60;
-	position: fixed;
-	top: 0;
-	right: 0;
-	left: 0; height: 80px;
-	background: #fff;
-	border-bottom: 1px solid #ccc;
+	z-index:60; position: fixed; top: 0; right: 0; left: 0; height: 60px;
+	background: #fff; border-bottom: 1px solid #ddd;
 
-	#headerLogo { height:60px; margin: 3px 0 18px; .animate(); }
-	.right { position: absolute; right:0; bottom:8px; text-align: right; }
+	#headerLogo { height:42px; margin:9px 0; .animate(); }
+	.right {
+		position: absolute; right:0; bottom:22px; text-align: right;
+
+		a.icon { color: #999; margin-left: 20px; vertical-align: middle; }
+		a.icon:hover { color: @primaryColor; cursor: pointer; }
+	}
 }
 
 #headerHolder { height: 60px;  }
 
 footer
 {
-	border-top:1px solid #aaa;
-	margin-top: 50px!important;		//In case over-written by "center" margin
-	padding: 30px 0;
-
+	margin: 30px auto; padding-bottom: 40px;
+	a.nav { font-size: 13px; color: #777; margin-right: 10px; }
+	a.nav:hover { text-decoration: underline; }
+	.copyright {
+		position: absolute; right:0; top:0px; font-size: 12px; color: #bbb;
+	}
 }
 
 @media @phoneScreenConfig
 {
-
+	footer { text-align: center; }
+	footer .copyright { position: static; margin-top: 12px; }
 }
