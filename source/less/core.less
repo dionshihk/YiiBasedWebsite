@@ -97,6 +97,21 @@ input.disable:focus, textarea.disable:focus { border-color: #aaa; color: #999; }
 textarea.sys { height: 180px; }
 select.sys { width: 400px; height: 30px; line-height: 30px; border: 1px solid #888; }
 
+#loginForm
+{
+	p { font-size: 14px; margin-bottom: 6px; color: #555; }
+	input { margin-bottom: 8px; }
+
+	.blackButton { margin-top: 8px; }
+	.forgotPassword { position:absolute;right:0;top:0;font-size:12px;}
+
+	@media @phoneScreenConfig
+	{
+		input[type="text"],input[type="password"] { width: 100%; }
+		.forgotPassword { position:static; display: block; font-size: 14px; }
+	}
+}
+
 #pageContentBox
 {
 	margin: 60px auto 100px; border:1px solid #ddd;
