@@ -21,9 +21,6 @@ input, textarea { outline: none; resize: none; }
 	font-size: 16px;
 
 	.left { display: inline-block; width: 180px; vertical-align: top; text-align: right; color: #777; }
-	.left.focused { color: @primaryColor; font-weight: bold; }
-	.left.focused.err { color: @redColor; }
-	.left p { color: #ccc !important; font-weight: normal; font-size: 12px; }
 
 	.right {
 		display: inline-block;
@@ -35,7 +32,11 @@ input, textarea { outline: none; resize: none; }
 		.errorTip { color: @redColor; font-size: 13px; margin-top: 5px; font-weight: bold; }
 	}
 
-	.bioRight { display: inline-block; vertical-align:top; margin-left:12px }
+	@media @phoneScreenConfig
+	{
+		.left { display: block; text-align: left; margin-bottom: 8px; }
+		.right { display: block; margin-left: 0;}
+	}
 }
 
 .tickLabel {
