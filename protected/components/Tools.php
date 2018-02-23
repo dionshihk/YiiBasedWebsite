@@ -89,7 +89,7 @@ class Tools
         //EmailController does not apply here
 
         $controller = Yii::app()->controller;
-        return (is_a($controller, 'BaseController') || is_a($controller, 'AdminBaseController'))
+        return (is_a($controller, 'BaseController') || is_a($controller, 'ApiBaseController'))
             ? $controller->user : null;
     }
 
