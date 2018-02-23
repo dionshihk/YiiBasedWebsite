@@ -10,8 +10,6 @@
     <?php if($runningMode == 1):?>
         <meta name="robots" content="noindex,nofollow">
     <?php endif?>
-
-    <link href="/favicon.ico" rel="shortcut icon">
     <?php foreach($this->css as $c):?>
         <link rel="stylesheet" type="text/css" href="<?=UserConfig::$staticFileRoot?>/<?=$c?>.css"/>
     <?php endforeach ?>
