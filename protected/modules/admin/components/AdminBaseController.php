@@ -84,8 +84,8 @@ class AdminBaseController extends BaseController
         Tools::log('Admin runtime error: <i>'.$info.'</i>');
 
         $this->pageTitle = $title;
-        $this->layout = '//admin/layouts/admin';
-        $this->render('//admin/basic/error', array('text'=>$info));
+        $this->layout = '/layouts/admin';
+        $this->render('/basic/error', array('text'=>$info));
         Yii::app()->end();
     }
 
